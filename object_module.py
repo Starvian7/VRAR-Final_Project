@@ -1,38 +1,7 @@
-# some functions for creation and rendering of 3d objects were borrowed/inspired from 
-# Juan Gallostra Acín's repository - https://github.com/juangallostra/augmented-reality 
-
-'''
-Copyright (c) 2018 Juan Gallostra Acín
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-'''
-
-#contains code to the .obj file and augment the object
-
 import cv2
 import numpy as np
 
-
 def augment(img, obj, projection, template, scale = 4):
-    # takes the captureed image, object to augment, and transformation matrix  
-    #adjust scale to make the object smaller or bigger, 4 works for the fox
-
     h, w = template.shape
     vertices = obj.vertices
     img = np.ascontiguousarray(img, dtype=np.uint8)
@@ -44,7 +13,6 @@ def augment(img, obj, projection, template, scale = 4):
 
     #projecting the faces to pixel coords and then drawing
     for face in obj.faces:
-        #a face is a list [face_vertices, face_tex_coords, face_col]
         face_vertices = face[0]
         points = np.array([vertices[vertex - 1] for vertex in face_vertices]) #-1 because of the shifted numbering
         points = scale*points
@@ -60,12 +28,10 @@ class three_d_object:
         self.texture = cv2.imread(filename_texture)
         self.vertices = []
         self.faces = []
-        #each face is a list of [lis_vertices, lis_texcoords, color]
         self.texcoords = []
 
         for line in open(filename_obj, "r"):
             if line.startswith('#'): 
-                #it's a comment, ignore 
                 continue
 
             values = line.split()
@@ -102,11 +68,7 @@ class three_d_object:
             else:
                 f.append((50, 50, 50)) #default color
 
-        # cv2.imwrite('texture_marked.png', self.texture)
-
     def decide_face_color(hex_color, texture, textures):
-        #doesnt use proper texture
-        #takes the color at the mean of the texture coords
 
         h, w, _ = texture.shape
         col = np.zeros(3)
@@ -123,12 +85,6 @@ class three_d_object:
 
         u = int(sum(all_us)/len(all_us))
         v = int(sum(all_vs)/len(all_vs))
-
-        # all_us.append(all_us[0])
-        # all_vs.append(all_vs[0])
-        # for i in range(len(all_us) - 1):
-        #     texture = cv2.line(texture, (all_us[i], all_vs[i]), (all_us[i + 1], all_vs[i + 1]), (0,0,255), 2)
-        #     pass    
 
         col = np.uint8(texture[v, u])
         col = [int(a) for a in col]

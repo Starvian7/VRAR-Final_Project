@@ -1,5 +1,5 @@
-import numpy as np
 import math
+import numpy as np
 
 def get_extended_RT(A, H):
 	H = np.float64(H) #for better precision

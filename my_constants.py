@@ -1,5 +1,5 @@
-import numpy as np
 import cv2
+import numpy as np
 
 #hardcoded intrinsic matrix for my webcam
 A = [[1019.37187, 0, 618.709848], [0, 1024.2138, 327.280578], [0, 0, 1]] 

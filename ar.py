@@ -7,6 +7,7 @@ import aruco_module as aruco
 from my_constants import *
 from utils import get_extended_RT
 
+#at each step, calculates the homography from scratch 
 def init(object_directory, object_textures, object_size):
 		obj = three_d_object(object_directory, object_textures)
 		marker_colored = cv2.imread('data/m1.png')

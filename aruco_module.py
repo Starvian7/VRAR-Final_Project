@@ -1,8 +1,7 @@
-#hepler functions to detect the aruco marker
-
-import numpy as np 
 import cv2 
 import sys
+import numpy as np 
+#helper functions to detect the aruco marker
   
 def display(img, f = 1):
     #takes an image as input and scaling factor and displays
@@ -49,7 +48,6 @@ def get_bit_sig(image, contour_pts, thresh = 127):
     return ans
 
 def match_sig(sig1, sig2, thresh = 62):
-    # print(sum([ (1- abs(a - b)) for a, b in zip(sig1, sig2)]))
     if sum([ (1- abs(a - b)) for a, b in zip(sig1, sig2)]) >= 62:
         return True
     else:
@@ -91,9 +89,6 @@ def find_pattern_aruco(image, aruco_marker, sigs):
                         src_pts = np.array([[h,w],[h,0], [0,0], [0,w]])
                     if match4:
                         src_pts = np.array([[h,0],[0,0], [0,w], [h,w]])
-
-                    # removed for consistency across both programs - with and without tracking
-                    # cv2.drawContours(image, [approx], 0, (0, 0, 255), 2) #mark red outline for found marker 
 
                     return src_pts, dst_pts, True
 

@@ -1,6 +1,3 @@
-# Camera callibration code borrowed from 
-# https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_calib3d/py_calibration/py_calibration.html
-
 import numpy as np
 import cv2
 import glob
@@ -16,21 +13,14 @@ objp[:,:2] = np.mgrid[0:9,0:7].T.reshape(-1,2)
 objpoints = [] # 3d point in real world space
 imgpoints = [] # 2d points in image plane.
 
-
-#here you give it the path to your photos ----------------------------------------------------------
 images = glob.glob('data/calibration_j/*.jpg')
 
 print(len(images))
 for fname in images:
     img = cv2.imread(fname)
     gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
-    # cv2.imshow("img", img)
-    # cv2.waitKey(0)
-    # Find the chess board corners
     ret, corners = cv2.findChessboardCorners(gray, (9,7),None)
 
-    # If found, add object points, image points (after refining them)
-    # print(ret)
     if ret == True:
         objpoints.append(objp)
 
@@ -45,5 +35,4 @@ for fname in images:
 cv2.destroyAllWindows()
 ret, mtx, dist, rvecs, tvecs = cv2.calibrateCamera(objpoints, imgpoints, gray.shape[::-1],None,None)
 
-#hardcode this found matrix in the other file----------------------------------------------------------
 print(mtx)

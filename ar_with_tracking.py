@@ -1,5 +1,3 @@
-# v1 - this version uses sparse optical tracking for a more responsive program
-
 import cv2
 import numpy as np
 import math
@@ -9,6 +7,7 @@ import aruco_module as aruco
 from my_constants import *
 from utils import get_extended_RT
 
+#uses sparse optical tracking for a more responsive program
 def checkedTrace(img0, img1, p0, back_threshold = 1.0):
 	p1, st, err = cv2.calcOpticalFlowPyrLK(img0, img1, p0, None, **lk_params)
 	p0r, st, err = cv2.calcOpticalFlowPyrLK(img1, img0, p1, None, **lk_params)
@@ -45,7 +44,6 @@ def init(object_directory, object_textures, object_size):
 	h_canvas = max(h, h2)
 	w_canvas = w + w2
 	
-	################################################################
 	# initialising all the variables needed for tracking
 	p0 = None
 	use_ransac = True
@@ -59,7 +57,6 @@ def init(object_directory, object_textures, object_size):
 	TRACKING_QUALITY_THRESHOLD = max(4, int(0.01 * TRACKING_QUALITY_THRESHOLD_PERCENTAGE * all_tracking_pts))
 	print(f"good pts in the marker are {all_tracking_pts}")
 	print(f"homography is calculated from scratch when number of pts tracked falls below {TRACKING_QUALITY_THRESHOLD} ({TRACKING_QUALITY_THRESHOLD_PERCENTAGE}%); ")
-	##################################################################
 
 	while rval:
 		counter += 1

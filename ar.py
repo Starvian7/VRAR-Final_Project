@@ -1,4 +1,3 @@
-# v0 - calculates the homography from scratch at each step
 import cv2
 import numpy as np
 import math
@@ -44,14 +43,12 @@ def init(object_directory, object_textures, object_size):
 			key = cv2.waitKey(20) 
 			if key == 27: # Escape key to exit the program
 				break
-
 			canvas = np.zeros((h_canvas, w_canvas, 3), np.uint8) #final display
 			canvas[:h, :w, :] = marker_colored #marker for reference
 
 			success, H = aruco.find_homography_aruco(frame, marker, sigs)
-			# success = False
+
 			if not success:
-				# print('homograpy est failed')
 				canvas[:h2 , w: , :] = np.flip(frame, axis = 1)
 				cv2.imshow("webcam", canvas )
 				continue
